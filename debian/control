@@ -1,20 +1,19 @@
 Source: apt
 Section: admin
 Priority: important
-Maintainer: APT Development Team <deity@lists.debian.org>
-Uploaders: Michael Vogt <mvo@debian.org>,
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+XSBC-Original-Maintainer: APT Development Team <deity@lists.debian.org>
+Uploaders: Michael Vogt <mvo@debian.org>, Otavio Salvador <otavio@debian.org>,
+ Christian Perrier <bubulle@debian.org>, Daniel Burrows <dburrows@debian.org>,
  Julian Andres Klode <jak@debian.org>
-Standards-Version: 3.9.7
-Build-Depends: dpkg-dev (>= 1.17.14), debhelper (>= 9.20141010), libdb-dev,
- gettext (>= 0.12), libcurl4-gnutls-dev (>= 7.19.4~),
- zlib1g-dev, libbz2-dev, liblzma-dev, liblz4-dev (>= 0.0~r126),
- xsltproc, docbook-xsl, docbook-xml, po4a (>= 0.34-2),
- autotools-dev, autoconf, automake, libgtest-dev <!nocheck>, dh-systemd
-Build-Depends-Indep: doxygen, w3m, graphviz
+Standards-Version: 3.9.2
+Build-Depends: dpkg-dev (>= 1.15.8), debhelper (>= 8.1.3~), libdb-dev,
+ gettext:any (>= 0.12), libcurl4-gnutls-dev (>= 7.19.0), liblzma-dev, libbz2-dev,
+ zlib1g-dev | libz-dev, debiandoc-sgml, xsltproc, docbook-xsl, docbook-xml,
+ po4a (>= 0.34-2), autotools-dev, autoconf, automake, doxygen
 Build-Conflicts: autoconf2.13, automake1.4
-Vcs-Git: git://anonscm.debian.org/apt/apt.git
-Vcs-Browser: https://anonscm.debian.org/cgit/apt/apt.git
-Testsuite: autopkgtest
+Vcs-Bzr: lp:~ubuntu-core-dev/apt/precise
+Vcs-Browser: http://code.launchpad.net/apt/precise
 
 Package: apt
 Architecture: any
@@ -45,7 +44,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Breaks: apt (<< 1.1~exp14), libapt-inst1.5 (<< 0.9.9~), appstream (<< 0.9.0-3~)
 Recommends: apt (>= ${binary:Version})
 Section: libs
-Description: package management runtime library
+Description: package managment runtime library
  This library provides the common functionality for searching and
  managing packages as well as information about packages.
  Higher-level package managers can depend upon this library.
@@ -108,20 +107,20 @@ Description: documentation for APT development
 Package: apt-utils
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, apt (= ${binary:Version})
-Description: package management related utility programs
+Description: package managment related utility programs
  This package contains some less used commandline utilities related
- to package management with APT.
+ to package managment with APT.
  .
   * apt-extracttemplates is used by debconf to prompt for configuration
     questions before installation.
   * apt-ftparchive is used to create Packages and other index files
-    needed to publish an archive of Debian packages
+    needed to publish an archive of debian packages
   * apt-sortpkgs is a Packages/Sources file normalizer.
 
 Package: apt-transport-https
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
 Recommends: ca-certificates
+Depends: ${shlibs:Depends}, ${misc:Depends}, libcurl3-gnutls (>= 7.22.0-3ubuntu4.3)
 Priority: optional
 Description: https download transport for APT
  This package enables the usage of 'deb https://foo distro main' lines
