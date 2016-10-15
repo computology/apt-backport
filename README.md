@@ -1,3 +1,42 @@
+# apt-backport
+This repository contains Debian packages for APT 1.2.10 for Ubuntu Precise (12.04) and Ubuntu Trusty (14.04). The source code for this can be found at [https://github.com/computology/apt-backport](https://github.com/computology/apt-backport).
+# Why backport APT 1.2.10?
+We've backported APT 1.2.10 to provide a version of apt to the community at large that supports the new `Acquire-by-hash` feature which eliminates the infamous "APT Hash sum mismatch" errors. You can read more about this bug and how this new apt feature fixes it on [our blog](http://blog.packagecloud.io/eng/2016/09/27/fixing-apt-hash-sum-mismatch-consistent-apt-repositories/).
+# Important notes
+We are not the maintainers or developers of APT; we simply made a few small changes to backport this particular version of APT to Ubuntu Precise and Ubuntu Trusty. We welcome pull requests that improve the quality or usability of this backport., however any bugs in APT itself should be filed with the APT project directly.
+
+**Important** we recommend that you test this code in a staging environment thoroughly before introducing it to production. APT is an important component of your system and before performing an upgrade to this vesion, you should familiarizer yourself with the process for downgrading if needed.
+
+## Installation procedure
+Simply follow the install instructions on the "Installation" tab above to set up this repository on your system. Once the repository is installed, you can run:
+
+```
+% sudo apt-get update
+% sudo apt-get install apt=1.2.10
+% sudo apt-get clean
+% sudo rm -rf /var/lib/apt/lists
+% sudo apt-get update
+```
+
+This will install the new version of APT as provided by this repository, clean out the APT cache, and redownload all repository metadata.
+
+## Errors you will see when you use this
+
+### Weak digest algorithm
+
+APT 1.2.10 introduced a warning that is displayed whenever a repository's GPG signature uses a digest algorithm that it considers "weak." Unfortunately, the official Ubuntu repositories (and thus, mirrors of them) have a weak signature. When you run `apt-get update`, you will see the following warning:
+
+```
+W: http://mirrors.digitalocean.com/ubuntu/dists/precise-updates/InRelease: Signature by key 630239CC130E1A7FD81A27B140976EAF437D05B5 uses weak digest algorithm (SHA1)
+W: http://mirrors.digitalocean.com/ubuntu/dists/precise-backports/InRelease: Signature by key 630239CC130E1A7FD81A27B140976EAF437D05B5 uses weak digest algorithm (SHA1)
+W: http://mirrors.digitalocean.com/ubuntu/dists/precise/Release.gpg: Signature by key 630239CC130E1A7FD81A27B140976EAF437D05B5 uses weak digest algorithm (SHA1)
+```
+
+Of course, your existing version of APT is using these same weak signatures; it's just not warning you about them. You may need to adjust your configuration management to expect these warnings when using repositories with weak signatures.
+
+The original APT readme follows below
+---
+
 APT
 ===
 
